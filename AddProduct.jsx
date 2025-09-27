@@ -1,214 +1,58 @@
-import { useEffect, useState } from 'react';
-import { Box, CircularProgress, Stack, TextField } from '@mui/material';
-import Popup from '../../../components/Popup';
-import { BlueButton } from '../../../utils/buttonStyles';
-import { useDispatch, useSelector } from 'react-redux';
-import { addStuff } from '../../../redux/userHandle';
-import altImage from "../../../assets/altimg.png";
-import styled from 'styled-components';
+import React, { useState } from "react";
+import axios from "axios";
 
 const AddProduct = () => {
-
-  const dispatch = useDispatch();
-
-  const { currentUser, status, response, error } = useSelector(state => state.user);
-
-  const [productName, setProductName] = useState("");
-  const [mrp, setMrp] = useState("");
-  const [cost, setCost] = useState("");
-  const [discountPercent, setDiscountPercent] = useState("");
-  const [subcategory, setSubcategory] = useState("");
-  const [productImage, setProductImage] = useState("");
-  const [category, setCategory] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [tagline, setTagline] = useState("");
-  const seller = currentUser._id
-
-  const [loader, setLoader] = useState(false);
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [brand, setBrand] = useState("");
+  const [countInStock, setCountInStock] = useState("");
+  const [image, setImage] = useState("");
+  const [offer, setOffer] = useState(""); // ✅ new
   const [message, setMessage] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
 
-  const fields = {
-    productName,
-    price: {
-      mrp: mrp,
-      cost: cost,
-      discountPercent: discountPercent,
-    },
-    subcategory,
-    productImage,
-    category,
-    description,
-    tagline,
-    seller
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const submitHandler = (event) => {
-    event.preventDefault();
-    setLoader(true);
-    console.log(fields);
-    dispatch(addStuff("ProductCreate", fields));
-  };
+    try {
+      const product = { name, description, price, category, brand, countInStock, image, offer };
+      const { data } = await axios.post("http://localhost:5000/api/products", product, {
+        headers: { "Content-Type": "application/json" },
+      });
+      setMessage(`Product "${data.name}" added successfully!`);
 
-  useEffect(() => {
-    if (status === "added") {
-      setLoader(false);
-      setShowPopup(true);
-      setMessage("Done Successfully");
-    } else if (status === 'failed') {
-      setMessage(response);
-      setShowPopup(true);
-      setLoader(false);
-    } else if (status === 'error') {
-      setLoader(false);
-      setMessage("Network Error");
-      setShowPopup(true);
+      // Clear the form
+      setName("");
+      setDescription("");
+      setPrice("");
+      setCategory("");
+      setBrand("");
+      setCountInStock("");
+      setImage("");
+      setOffer("");
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Error adding product");
     }
-  }, [status, response, error]);
+  };
 
   return (
-    <>
-      <Box
-        sx={{
-          flex: '1 1 auto',
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'center'
-        }}
-      >
-        <Box
-          sx={{
-            maxWidth: 550,
-            px: 3,
-            py: '30px',
-            width: '100%'
-          }}
-        >
-          <div>
-            <Stack spacing={1} sx={{ mb: 3 }}>
-              {
-                productImage
-                  ? <ProductImage src={productImage} alt="" />
-                  : <ProductImage src={altImage} alt="" />
-              }
-            </Stack>
-            <form onSubmit={submitHandler}>
-              <Stack spacing={3}>
-                <TextField
-                  fullWidth
-                  label="Product Image URL"
-                  value={productImage}
-                  onChange={(event) => setProductImage(event.target.value)}
-                  required
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  label="Product Name"
-                  value={productName}
-                  onChange={(event) => setProductName(event.target.value)}
-                  required
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  multiline
-                  label="Description"
-                  value={description}
-                  onChange={(event) => setDescription(event.target.value)}
-                  required
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  label="MRP"
-                  value={mrp}
-                  onChange={(event) => setMrp(event.target.value)}
-                  required
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  label="Cost"
-                  value={cost}
-                  onChange={(event) => setCost(event.target.value)}
-                  required
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  label="Discount Percent"
-                  value={discountPercent}
-                  onChange={(event) => setDiscountPercent(event.target.value)}
-                  required
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  label="Category"
-                  value={category}
-                  onChange={(event) => setCategory(event.target.value)}
-                  required
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  label="Subcategory"
-                  value={subcategory}
-                  onChange={(event) => setSubcategory(event.target.value)}
-                  required
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  label="Tagline"
-                  value={tagline}
-                  onChange={(event) => setTagline(event.target.value)}
-                  required
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Stack>
-              <BlueButton
-                fullWidth
-                size="large"
-                sx={{ mt: 3 }}
-                variant="contained"
-                type="submit"
-                disabled={loader}
-              >
-                {loader ? <CircularProgress size={24} color="inherit" /> : "Add"}
-              </BlueButton>
-            </form>
-          </div>
-        </Box>
-      </Box>
-      <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
-    </>
+    <div style={{ maxWidth: "500px", margin: "auto", padding: "20px" }}>
+      <h2>Add New Product</h2>
+      {message && <p>{message}</p>}
+      <form onSubmit={handleSubmit}>
+        <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
+        <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} required />
+        <input type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} required />
+        <input type="text" placeholder="Category" value={category} onChange={(e) => setCategory(e.target.value)} />
+        <input type="text" placeholder="Brand" value={brand} onChange={(e) => setBrand(e.target.value)} />
+        <input type="number" placeholder="Count In Stock" value={countInStock} onChange={(e) => setCountInStock(e.target.value)} />
+        <input type="text" placeholder="Image URL" value={image} onChange={(e) => setImage(e.target.value)} />
+        <input type="number" placeholder="Offer (%)" value={offer} onChange={(e) => setOffer(e.target.value)} /> {/* ✅ new */}
+        <button type="submit">Add Product</button>
+      </form>
+    </div>
   );
 };
 
 export default AddProduct;
-
-const ProductImage = styled.img`
-  width: 200px;
-  height: auto;
-  margin-bottom: 8px;
-`;

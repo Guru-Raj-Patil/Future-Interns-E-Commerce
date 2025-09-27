@@ -1,70 +1,101 @@
-# Getting Started with Create React App
+<h1 align="center">
+    SHOPCART: Ecommerce Site
+</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h3 align="center">
+Seamless shopping, search and explore different product categories, add products to cart, and checkout swiftly. <br>
+Become a seller and add products, monitor sales, and gather customer feedback.
+</h3>
 
-## Available Scripts
+<br>
 
-In the project directory, you can run:
+[Youtube Video](https://youtu.be/i_z0HYk3IuQ?si=S04-IBq7Ny8k0FYC)
+<br><br>
+[LinkedIn](https://www.linkedin.com/in/yogndr/)
 
-### `npm start`
+# About
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+ShopCart is an ecommerce site developed using the MERN (MongoDB, Express.js, React, Node.js) stack. It offers a user-friendly and efficient shopping experience for customers, while providing sellers with essential tools to manage their products and sales.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+- **User Registration:** ShopCart allows users to register as customers or sellers, enabling a tailored shopping experience.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Cart System:** Customers can add products to their cart for easy checkout. The cart allows them to review and manage their selections before completing the purchase.
 
-### `npm run build`
+- **Product Search:** ShopCart offers a search functionality where customers can find products by name or browse through categories such as Electronics, Clothes, Kitchen, and more.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Reviews and Ratings:** Customers can leave reviews and ratings (out of 5) for products they've purchased, providing valuable feedback for sellers and building trust within the community.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Seller Dashboard:** Sellers have access to a dedicated dashboard where they can manage their products, view sales data, and gain insights into their store's performance through data visualization.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Product Management:** Sellers can add products with detailed information and set their prices. They can also check which customers have added their products to their carts.
 
-### `npm run eject`
+- **Order Tracking:** Sellers can monitor the products ordered by customers, helping them stay organized and fulfill orders efficiently.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Technologies Used
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Frontend: React.js, Material UI, Redux Toolkit, Styled Components
+- Backend: Node.js, Express.js, JWT Token
+- Database: MongoDB
+- Data Visualization: React Apexcharts
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+<br>
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# Installation
 
-## Learn More
+```sh
+git clone https://github.com/Yogndrr/MERN-Ecommerce-Site.git
+```
+Open 2 terminals in separate windows/tabs.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Terminal 1: Setting Up Backend 
+```sh
+cd backend
+npm install
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Create a file called .env in the backend folder.
+Inside it write this :
 
-### Code Splitting
+```sh
+MONGO_URL = mongodb://127.0.0.1/ecommerce
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+SECRET_KEY = 'secret-key'
+```
+Instead of this link write your database link.
 
-### Analyzing the Bundle Size
+Terminal 2: Setting Up Frontend
+```sh
+cd frontend
+npm install
+npm start
+```
+Now, navigate to `localhost:3000` in your browser. 
+The Backend API will be running at `localhost:5000`.
+<br>
+# Error Solution
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+If you encounter a network error while signing up, follow these steps to resolve it:
 
-### Making a Progressive Web App
+1. Navigate to the `src > redux > userHandle.js` file.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+2. Add the following line after the import statements:
 
-### Advanced Configuration
+```javascript
+const REACT_APP_BASE_URL = "http://localhost:5000";
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+3. Replace all instances of `process.env.REACT_APP_BASE_URL` with `REACT_APP_BASE_URL`.
 
-### Deployment
+The issue arises because the `.env` file in the frontend may not work for all users, while it works for me.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+These steps should resolve the network error in the frontend. If the issue persists, feel free to contact me for further assistance.
 
-### `npm run build` fails to minify
+Don't forget to leave a star for this project if you found the solution helpful. Thank you!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Deployment
+* Render - server side
+* Vercel - client side
+
